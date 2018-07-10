@@ -1,14 +1,14 @@
 {
-  "name": "react-native-scaling-drawer",
-  "version": "1.0.1",
-  "description": "react-native-scaling-drawer",
+  "name": "react-native-scaling-drawer-improved",
+  "version": "1.0.2",
+  "description": "react-native-scaling-drawer-improved",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/melihberberolu/react-native-scaling-drawer.git"
+    "url": "git+https://github.com/feong/react-native-scaling-drawer.git"
   },
   "keywords": [
     "React",
@@ -16,12 +16,12 @@
     "Scaling-Drawer",
     "Drawer"
   ],
-  "author": "Melih Berberoğlu <melihberberoglu@gmail.com>",
+  "author": "Feong <feong@live.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/melihberberolu/react-native-scaling-drawer/issues"
+    "url": "https://github.com/feong/react-native-scaling-drawer/issues"
   },
-  "homepage": "https://github.com/melihberberolu/react-native-scaling-drawer#readme",
+  "homepage": "https://github.com/feong/react-native-scaling-drawer#readme",
   "dependencies": {
     "prop-types": "^15.6.0",
     "react-navigation": "^1.0.0-beta.27"
