@@ -1,7 +1,16 @@
+# 基于[melihberberolu](https://github.com/melihberberolu/react-native-scaling-drawer)的更新
+
+1.  swipeOffset 更改为一个函数返回，这样对于不同的页面可以设置是否可以滑动打开 drawer；
+2.  container 的 flex 为 1，相关[PR](https://github.com/melihberberolu/react-native-scaling-drawer/pull/10)
+3.  更改 onPanResponderRelease、onPanResponderTerminate 和 onPanResponderTerminationRequest 方法，防止出现滑动一段距离后被其它空间剥夺触控事件，导致 drawer 卡在一边的问题；
+4.  自动展开或关闭的距离为 20%，且不超过 75pd
+
 # react-native-scaling-drawer
+
 React Native SwipeAble Scaling Drawer
 
 ## Installation
+
 `npm i react-native-scaling-drawer --save`
 
 ![Demo](https://cloud.githubusercontent.com/assets/3721734/23039111/278b754c-f495-11e6-8f59-6a3bd08e11cf.gif)
@@ -9,26 +18,26 @@ React Native SwipeAble Scaling Drawer
 
 ## API
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| ``scalingFactor`` | ``number`` | `0.6` | Maximum scaling size (in percantage) of your Front View's scale. Set value higher than `0.1` lower than `1` |
-| ``minimizeFactor`` | ``number`` | ``0.7`` | Maximum push offset (in percentage) of your Front View's position relative to left edge of screen. A value of `0.5` means middle of screen if scaling value is  |
-| ``content`` | ``element`` | - | Drawer content menu(Left Menu) |
-| ``swipeOffset`` | ``number`` | ``10`` | Minimum offset for your Front View to trigger Drawer's Swipe action |
-| ``contentWrapperStyle`` | ``object`` | - | Drawer Menu Wrapper custom style |
-| ``frontStyle`` | ``object`` | - | Front View custom style |
-| ``onOpen`` | ``function`` | - | If u open drawer trigger onOpen function |
-| ``onClose`` | ``function`` | - | If u close drawer trigger onClose function |
+| Prop                  | Type       | Default | Description                                                                                                                                                    |
+| --------------------- | ---------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `scalingFactor`       | `number`   | `0.6`   | Maximum scaling size (in percantage) of your Front View's scale. Set value higher than `0.1` lower than `1`                                                    |
+| `minimizeFactor`      | `number`   | `0.7`   | Maximum push offset (in percentage) of your Front View's position relative to left edge of screen. A value of `0.5` means middle of screen if scaling value is |
+| `content`             | `element`  | -       | Drawer content menu(Left Menu)                                                                                                                                 |
+| `swipeOffset`         | `function` | `10`    | Minimum offset for your Front View to trigger Drawer's Swipe action                                                                                            |
+| `contentWrapperStyle` | `object`   | -       | Drawer Menu Wrapper custom style                                                                                                                               |
+| `frontStyle`          | `object`   | -       | Front View custom style                                                                                                                                        |
+| `onOpen`              | `function` | -       | If u open drawer trigger onOpen function                                                                                                                       |
+| `onClose`             | `function` | -       | If u close drawer trigger onClose function                                                                                                                     |
 
 ## NOTE
+
 If you want to disable drawer swipe, you can access blockSwipeAbleDrawer method and send true. (Default value false, you can swipe drawer any screen). You can check my example for block.
 
 ## Example With React Navigation
 
 ```jsx
-
-import React, {Component} from 'react';
-import {View, StatusBar, TouchableOpacity, Text} from 'react-native';
+import React, { Component } from 'react';
+import { View, StatusBar, TouchableOpacity, Text } from 'react-native';
 import ScalingDrawer from 'react-native-scaling-drawer';
 import Home from './container/Home';
 import Profile from './container/Profile';
@@ -39,7 +48,7 @@ import {
   createNavigator,
   createNavigationContainer,
   StackRouter,
-  addNavigationHelpers,
+  addNavigationHelpers
 } from 'react-navigation';
 
 let defaultScalingDrawerConfig = {
@@ -58,7 +67,10 @@ class CustomDrawerView extends Component {
     if (nextProps.navigation.state.index === 0)
       this._drawer.blockSwipeAbleDrawer(false);
 
-    if (nextProps.navigation.state.index === 0 && this.props.navigation.state.index === 0) {
+    if (
+      nextProps.navigation.state.index === 0 &&
+      this.props.navigation.state.index === 0
+    ) {
       this._drawer.blockSwipeAbleDrawer(false);
       this._drawer.close();
     }
@@ -76,13 +88,15 @@ class CustomDrawerView extends Component {
   };
 
   render() {
-    const {routes, index} = this.props.navigation.state;
-    const ActiveScreen = this.props.router.getComponentForState(this.props.navigation.state);
+    const { routes, index } = this.props.navigation.state;
+    const ActiveScreen = this.props.router.getComponentForState(
+      this.props.navigation.state
+    );
 
     return (
       <ScalingDrawer
-        ref={ref => this._drawer = ref}
-        content={<LeftMenu navigation={this.props.navigation}/>}
+        ref={ref => (this._drawer = ref)}
+        content={<LeftMenu navigation={this.props.navigation} />}
         {...defaultScalingDrawerConfig}
         onClose={() => console.log('close')}
         onOpen={() => console.log('open')}
@@ -91,32 +105,39 @@ class CustomDrawerView extends Component {
           navigation={addNavigationHelpers({
             ...this.props.navigation,
             state: routes[index],
-            openDrawer: () => this._drawer.open(),
+            openDrawer: () => this._drawer.open()
           })}
-          dynamicDrawerValue={ (type, val) => this.setDynamicDrawerValue(type, val) }
+          dynamicDrawerValue={(type, val) =>
+            this.setDynamicDrawerValue(type, val)
+          }
         />
       </ScalingDrawer>
-    )
+    );
   }
 }
 
-const AppNavigator = StackRouter({
-  Home: {screen: Home},
-  Profile: {screen: Profile},
-  Wins: {screen: Wins},
-  Detail: {
-    screen: Detail,
-    path: 'detail'
+const AppNavigator = StackRouter(
+  {
+    Home: { screen: Home },
+    Profile: { screen: Profile },
+    Wins: { screen: Wins },
+    Detail: {
+      screen: Detail,
+      path: 'detail'
+    }
+  },
+  {
+    initialRouteName: 'Home'
   }
-}, {
-  initialRouteName: 'Home',
-});
+);
 
-const CustomDrawer = createNavigationContainer(createNavigator(AppNavigator)(CustomDrawerView));
+const CustomDrawer = createNavigationContainer(
+  createNavigator(AppNavigator)(CustomDrawerView)
+);
 
 export default CustomDrawer;
-
 ```
 
 ## TODO
+
 - Add Perspective Animation
